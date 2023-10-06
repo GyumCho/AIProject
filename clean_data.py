@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-csv_file = pd.read_csv("new_data.csv", encoding='unicode_escape')
+csv_file = pd.read_csv("new_data_utf.csv", encoding='utf-8')
 dataset = csv_file[['id','native','language','probabilities','english_only','text']]
 
 # removing duplicates
