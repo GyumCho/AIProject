@@ -26,7 +26,7 @@ model = T5ForConditionalGeneration.from_pretrained('../model/French_model')
 import numpy as np
 import pandas as pd
 
-tokenizer = T5Tokenizer.from_pretrained('../French_model')
+tokenizer = T5Tokenizer.from_pretrained('../model/French_model')
 
 def correct_trained(sentence): 
     input_ids = tokenizer(f"gec: {sentence}", return_tensors="pt").input_ids
