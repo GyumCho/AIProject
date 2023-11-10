@@ -7,3 +7,5 @@ Description of jupyter notebooks:
    - 2.2 Comparison analysis between error frequencies of French, Italian and Spanish languages
 4. Recreate a dataset with the target frequencies from a larger dataset
 5. Train and evaluate the model
+
+The requirements.txt file was generated using an anaconda environment with python v3.10.13.
