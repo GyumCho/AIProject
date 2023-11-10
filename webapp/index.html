@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Project - Call</title>
+<style>
+	* {
+		padding: 0;
+		margin: 0;
+	}
+	body {
+		background-color: #f0f0f1;
+	}
+	.header {
+		height: 64px;
+		width: 100%;
+		text-align: center;
+		line-height: 64px;
+		font-size: 24px;
+		background-color: #fff;
+	}
+	.view-editor-box {
+		display: flex;
+		flex-direction: row;
+		margin: 44px;
+		height: 540px;
+		border-radius: 8px;
+		background-color: #fff;
+		box-sizing: border-box;
+	}
+	.view-editor-box .box-cell {
+		position: relative;
+		flex: 1;
+		padding: 24px;
+		box-sizing: border-box;
+		position: relative;
+		overflow-wrap: break-word; 
+  		word-break: break-all;
+	}
+	.view-editor-box .box-cell.right-border {
+		border-right: 2px solid #c3c4c7;
+	}
+	.view-editor-box .box-cell.btn-area {
+		padding-bottom: 76px;
+		padding-right: 44px;
+	}
+	.view-editor-box .box-cell .input-field {
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+  		overflow-wrap: break-word; 
+  		word-break: break-all;
+	}
+	[contenteditable=true]:empty:not(:focus):before {
+	  	content: attr(placeholder);
+    	color: #383838 !important;
+	}
+	[contenteditable="true"]:focus {
+	  outline: none;
+	}
+	.view-editor-box .box-cell .btn {
+		position: absolute;
+		width: 120px;
+		height: 36px;
+		line-height: 36px;
+		text-align: center;
+		color: #fff;
+		background-color: #007017;
+		border-radius: 24px;
+	}
+	.view-editor-box .box-cell .btn.check {
+		right: 12px;
+		bottom: 12px;
+	}
+
+	.del-icon {
+		position: relative;
+	  	width: 20px;
+	  	height: 20px;
+	  	background-color: #8c8f94;
+	  	cursor: pointer;
+	  	border-radius: 2px;
+	}
+
+	.del-icon:before, .del-icon:after {
+	  	position: absolute;
+	  	content: '';
+	  	top: 9px;
+	  	left: 5px;
+	  	width: 10px;
+	  	height: 2px;
+	  	background-color: white;
+	}
+
+	.del-icon:before {
+		transform: rotate(45deg);
+	}
+
+	.del-icon:after {
+		transform: rotate(-45deg);
+	}
+
+	.view-editor-box .del-icon {
+		position: absolute;
+		top: 24px;
+		right: 12px;
+	}
+</style>
+</head>
+<body>
+
+<header class="header">CALL</header>
+<section class="view-editor-box">
+	<div class="box-cell right-border btn-area ">
+		<div class="del-icon"></div>
+		<div class="input-field" contenteditable=true placeholder="Enter text here"></div>
+		<div id="check-botton" class="check btn">Check</div>
+	</div>
+	<div class="box-cell" id="output"></div>
+</section>
+
+</body>
+<script>
+	var inputField = document.querySelector('.input-field');
+	var delIcon = document.querySelector('.del-icon');
+	var checkButton = document.querySelector('#check-botton');
+
+	function toggleDelIcon() {
+	    if (inputField.textContent.trim().length > 0) {
+	      delIcon.style.display = 'block';
+	    } else {
+	      delIcon.style.display = 'none';
+	    }
+	}
+
+	toggleDelIcon();
+
+	inputField.addEventListener('input', toggleDelIcon);
+
+	delIcon.addEventListener('click', function() {
+	    inputField.textContent = '';
+	    toggleDelIcon();
+	});
+
+	checkButton.addEventListener('click', function() {
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.open( "POST", 'http://localhost:8000', false ); // false for synchronous request
+		xmlHttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8")
+		xmlHttp.send( JSON.stringify({'sentence': inputField.textContent }) );
+		const myArray = xmlHttp.responseText.split("=");
+		var res = myArray[1].replace("'", "").replace('"', "").replace("'", "")
+		document.querySelector("#output").textContent = res;
+		return xmlHttp.responseText;
+	})
+</script>
+</html>
